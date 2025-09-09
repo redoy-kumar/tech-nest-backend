@@ -16,7 +16,13 @@ const userSignUpController = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const userData = new userModel({ name, email, password: hashedPassword, profilePic });
+    const payload = {
+            ...req.body,
+            role : "GENERAL",
+            password : hashedPassword
+        }
+
+    const userData = new userModel(payload);
     await userData.save();
 
     res.status(201).json({ message: "User created successfully", success: true, error: false, data: userData });
