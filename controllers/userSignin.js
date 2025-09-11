@@ -6,52 +6,34 @@ async function userSignInController(req, res) {
     try {
         const { email, password } = req.body;
 
-        // console.log("Body:", req.body);
-
-        if (!req.body)
-            return res.status(400).json({ message: "Request body missing", error: true, success: false });
-
         if (!email || !password)
-            throw new Error("Email and password are required");
+            return res.status(400).json({ message: "Email and password are required", error: true, success: false });
 
         const user = await userModel.findOne({ email });
         if (!user)
-            throw new Error("User not found. Please sign up first.");
+            return res.status(404).json({ message: "User not found", error: true, success: false });
 
         const checkPassword = bcrypt.compareSync(password, user.password);
         if (!checkPassword)
-            throw new Error("Invalid credentials. Please try again.");
+            return res.status(401).json({ message: "Invalid credentials", error: true, success: false });
 
-
-        // Generate JWT token
-        const tokenData = {
-            _id: user._id,
-            email: user.email
-        };
-
-
-        const token = jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, { expiresIn: "2d" });
+        const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET_KEY, { expiresIn: "2d" });
 
         const tokenOptions = {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production", // false in localhost
-            sameSite: "Lax" // or "None" if you need cross-site requests
+            sameSite: "Lax"
         };
 
         res.cookie("token", token, tokenOptions).json({
             message: "User signed in successfully",
             success: true,
             error: false,
-            data: user   // send user data
+            data: user
         });
+
     } catch (error) {
-        res.json(
-            {
-                message: error.message,
-                error: true,
-                success: false
-            }
-        );
+        res.status(500).json({ message: error.message, error: true, success: false });
     }
 }
 
