@@ -5,7 +5,7 @@ async function authToken(req, res, next) {
         const token = req.cookies?.token;
 
         if (!token) {
-            return res.status(401).json({
+            return res.status(200).json({
                 message: "User not logged in",
                 error: true,
                 success: false,
@@ -22,8 +22,8 @@ async function authToken(req, res, next) {
             }
 
             // ✅ Properly attach user
-            req.user = { id: decoded._id, email: decoded.email };
-            console.log("Auth Middleware Attached User:", req.user);
+            req.userId = decoded._id;
+            // console.log("Auth Middleware Attached User:", req.user);
 
             next();
         });

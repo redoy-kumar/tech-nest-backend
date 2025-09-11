@@ -2,7 +2,8 @@ import userModel from "../models/userModel.js";
 
 async function userDetailsController(req, res) {
     try {
-        const userId = req.user?.id; // ✅ middleware attaches this
+        const userId = req.userId; // ✅ middleware attaches this
+        console.log("User Id", userId);
         if (!userId) {
             return res.status(401).json({
                 message: "Unauthorized: No user ID",
@@ -11,7 +12,7 @@ async function userDetailsController(req, res) {
             });
         }
 
-        const user = await userModel.findById(userId).select("-password");
+        const user = await userModel.findById(userId);
         if (!user) {
             return res.status(404).json({ 
                 message: "User not found", 
@@ -24,7 +25,7 @@ async function userDetailsController(req, res) {
             message: "User fetched successfully",
             error: false,
             success: true,
-            user
+            data: user
         });
 
     } catch (error) {
