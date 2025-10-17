@@ -21,7 +21,7 @@ async function authToken(req, res, next) {
                 });
             }
 
-            // ✅ Properly attach user
+            // Properly attach user
             req.userId = decoded._id;
             // console.log("Auth Middleware Attached User:", req.user);
 
