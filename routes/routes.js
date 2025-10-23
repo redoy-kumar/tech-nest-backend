@@ -7,6 +7,8 @@ import userLogout from "../controllers/userLogout.js";
 import allUsers from "../controllers/allUsers.js";
 import updateUser from "../controllers/updateUser.js";
 import uploadProductController from "../controllers/uploadProduct.js";
+import getProductController from "../controllers/getProduct.js";
+import updateProductController from "../controllers/updateProduct.js";
 
 const router = express.Router();
 
@@ -23,7 +25,8 @@ router.post("/update-user",authToken, updateUser)
 
 // Product 
 router.post("/upload-product", authToken, uploadProductController)
-
+router.get("/get-product",getProductController)
+router.post("/update-product",authToken,updateProductController)
 
 export default router;
  
