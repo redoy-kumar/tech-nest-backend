@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-import userModel from "../models/userModel.js";
+import userModel from "../../models/userModel.js";
 import jwt from "jsonwebtoken";
 
 async function userSignInController(req, res) {

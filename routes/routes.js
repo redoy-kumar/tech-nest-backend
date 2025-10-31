@@ -1,14 +1,15 @@
 import express from "express";
-import userSignUpController from "../controllers/userSignUp.js";
-import userSignInController from "../controllers/userSignin.js";
-import userDetailsController from "../controllers/userDetails.js";
+import userSignUpController from "../controllers/user/userSignUp.js";
+import userSignInController from "../controllers/user/userSignin.js";
+import userDetailsController from "../controllers/user/userDetails.js";
 import authToken from "../middleware/authToken.js";
-import userLogout from "../controllers/userLogout.js";
-import allUsers from "../controllers/allUsers.js";
-import updateUser from "../controllers/updateUser.js";
-import uploadProductController from "../controllers/uploadProduct.js";
-import getProductController from "../controllers/getProduct.js";
-import updateProductController from "../controllers/updateProduct.js";
+import userLogout from "../controllers/user/userLogout.js";
+import allUsers from "../controllers/user/allUsers.js";
+import updateUser from "../controllers/user/updateUser.js";
+import uploadProductController from "../controllers/product/uploadProduct.js";
+import getProductController from "../controllers/product/getProduct.js";
+import updateProductController from "../controllers/product/updateProduct.js";
+import getCategoryProduct from "../controllers/product/getCategoryProduct.js";
 
 const router = express.Router();
 
@@ -27,6 +28,7 @@ router.post("/update-user",authToken, updateUser)
 router.post("/upload-product", authToken, uploadProductController)
 router.get("/get-product",getProductController)
 router.post("/update-product",authToken,updateProductController)
+router.get('/get-category-product',getCategoryProduct)
 
 export default router;
  
