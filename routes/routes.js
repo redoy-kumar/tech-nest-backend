@@ -9,7 +9,8 @@ import updateUser from "../controllers/user/updateUser.js";
 import uploadProductController from "../controllers/product/uploadProduct.js";
 import getProductController from "../controllers/product/getProduct.js";
 import updateProductController from "../controllers/product/updateProduct.js";
-import getCategoryProduct from "../controllers/product/getCategoryProduct.js";
+import getCategoryProduct from "../controllers/product/getCategorySingle.js";
+import getCategoryWiseProduct from "../controllers/product/getCategoryWiseProduct.js";
 
 const router = express.Router();
 
@@ -20,7 +21,7 @@ router.get("/user-logout",userLogout)
 
 
 // Admin panel
-router.get('/allUsers',authToken,allUsers)
+router.get("/allUsers",authToken,allUsers)
 router.post("/update-user",authToken, updateUser)
 
 
@@ -28,7 +29,8 @@ router.post("/update-user",authToken, updateUser)
 router.post("/upload-product", authToken, uploadProductController)
 router.get("/get-product",getProductController)
 router.post("/update-product",authToken,updateProductController)
-router.get('/get-category-product',getCategoryProduct)
+router.get("/get-category-product",getCategoryProduct)
+router.post("/category-wise-product",getCategoryWiseProduct)
 
 export default router;
  
