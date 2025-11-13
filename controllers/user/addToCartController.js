@@ -1,58 +1,46 @@
-import addToCartModel from "../../models/cartProduct.js";
+import addToCartModel from "../../models/cartProduct.js"
 
-const addToCartController = async (req, res) => {
-  try {
-    const { productId } = req.body;
-    const currentUser = req.userId;
+const addToCartController = async(req,res)=>{
+    try{
+        const { productId } = req?.body
+        const currentUser = req.userId
 
-    if (!productId) {
-      return res.status(400).json({
-        message: "productId is required",
-        success: false,
-      });
+        const isProductAvailable = await addToCartModel.findOne({ productId })
+
+        if(isProductAvailable){
+            return res.json({
+                message : "Already exits in Add to cart",
+                success : false,
+                error : true
+            })
+        }
+
+        const payload  = {
+            productId : productId,
+            quantity : 1,
+            userId : currentUser,
+        }
+
+        const newAddToCart = new addToCartModel(payload)
+        const saveProduct = await newAddToCart.save()
+
+
+        return res.json({
+            data : saveProduct,
+            message : "Product Added in Cart",
+            success : true,
+            error : false
+        })
+        
+
+    }catch(err){
+        res.json({
+            message : err?.message || err,
+            error : true,
+            success : false
+        })
     }
+}
 
-    // Check if product already exists in cart for this user
-    const existProduct = await addToCartModel.findOne({
-      productId,
-      userId: currentUser,
-    });
 
-    if (existProduct) {
-      // Increase quantity instead (optional)
-      existProduct.quantity += 1;
-      await existProduct.save();
-
-      return res.json({
-        message: "Product quantity updated",
-        success: true,
-        error: false,
-      });
-    }
-
-    // Add new cart item
-    const newItem = new addToCartModel({
-      productId,
-      userId: currentUser,
-      quantity: 1,
-    });
-
-    const saveProduct = await newItem.save();
-
-    return res.json({
-      data: saveProduct,
-      message: "Product added to cart",
-      success: true,
-      error: false,
-    });
-
-  } catch (error) {
-    return res.status(400).json({
-      message: error.message || error,
-      error: true,
-      success: false
-    });
-  }
-};
-
-export default addToCartController;
+export default addToCartController

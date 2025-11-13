@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const addToCartSchema = new mongoose.Schema(
   {
     productId: {
+      ref: 'Product',
       type: String,
       required: true,   
     },
