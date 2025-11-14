@@ -3,11 +3,11 @@ import addToCartModel from "../../models/cartProduct.js";
 const updateAddToCartProduct = async (req,res) =>{
     try{
         const currentUserId = req.userId
-        const addToCartProductId = req.body._id
+        const addToCartProductId = req?.body?._id
 
         const qty = req.body.quantity
         
-        const updateProduct = await addToCartModel.updateOne(addToCartProductId,{
+        const updateProduct = await addToCartModel.updateOne({_id: addToCartProductId},{
            ...(qty && {quantity: qty})
         })
 
