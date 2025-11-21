@@ -18,6 +18,7 @@ import addToCartViewProduct from "../controllers/user/addToCartViewProduct.js";
 import updateAddToCartProduct from "../controllers/user/updateAddToCartProduct.js";
 import deleteAddToCartProduct from "../controllers/user/deleteAddToCartProduct.js";
 import searchProduct from "../controllers/product/searchProduct.js";
+import filterProductController from "../controllers/product/filterProduct.js";
 
 const router = express.Router();
 
@@ -40,6 +41,7 @@ router.get("/get-category-product",getCategoryProduct)
 router.post("/category-wise-product",getCategoryWiseProduct)
 router.post("/product-details",getProductDetails)
 router.get("/search-product",searchProduct)
+router.post("/filter-product", filterProductController);
 
 // user add to cart
 router.post("/add-to-cart", authToken, addToCartController)
